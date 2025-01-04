@@ -9,4 +9,9 @@
 ## Specification 📝
 
 * **New Post:**
-* **
+* **All Posts:**
+* **Profile Page:**
+* **Following:**
+* **Pagination:**
+* **Edit Post:**
+* **Like and Unlike:**
