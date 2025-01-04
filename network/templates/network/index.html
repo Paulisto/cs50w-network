@@ -1,0 +1,26 @@
+{% extends "network/layout.html" %}
+{% block title%}Home | Thoughtbox{% endblock %}
+{% block body %}
+    <div class="container">
+        <h2 class="text-center title">All Posts</h2>
+        <!--NEW POST-->
+        {% if user.is_authenticated %}
+        <div class="col-12 col-lg-10 border rounded mt-0 mt-sm-3">
+            <h4>New post</h4>
+            <form action="{% url 'newpost' %}" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <div class="form-group pt-3">
+                    <button type="submit" class="btn btn-success">Post</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+
+        <div class="row-justify-content-center">
+            <div class="col-12 col-lg-10 pt-4 my-4 border rounded bg-white">
+                {% include "network/posts_container.html" %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "network/layout.html" %}
+
+{% block title %}{{ user.username }} - User profile{% endblock %}
+{% block body %}
+    <div class="container">
+      <!--USER-->
+      <div class="card my-4 border-0">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <img class="card-img" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" width="240" height="240">
+            </div>
+            <div class="col-lg-6 col-md-7">
+                <div class="card-block py-4">
+                    <h1 class="card-title">{{ profile_user }}</h1>
+                    <br>
+                    <span class="mb-1"><strong>{{ followers_count }}</strong> Followers  <strong>{{ following_count }}</strong> Following</span>
+
+                    {% if user.is_authenticated and profile_user != request.user %}
+                        {% if not following %}
+                            <form action="{% url 'follow' profile_user.id %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-success">Follow</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'unfollow' profile_user.id %}" method="POST"> 
+                                {% csrf_token %}
+                                <button class="btn btn-success">Unfollow</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>
+      <!--NEW POST IF IT'S THE PROFILE OF AUTHENTICATED USER-->
+      {% if user.is_authenticated and profile_user == request.user %}
+      <div class="col-12 col-lg-10 my-4 border rounded mt-0 mt-sm-3">
+          <h4>Create a new post</h4>
+          <form action="{% url 'newpost' %}" method="POST">
+              {% csrf_token %}
+              {{ form.comment }}
+              <div class="form-group pt-3">
+                  <button type="submit" class="btn btn-success">Post</button>
+              </div>
+          </form>
+      </div>
+      {% endif %}
+      <!--POSTS-->
+      <div class="row-justify-content-center">
+        <div class="col-12 col-lg-10 pt-4 border bg-white">
+            {% include "network/posts_container.html" %}
+        </div>
+      </div>      
+    </div>
+{% endblock%}
